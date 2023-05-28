@@ -1,15 +1,61 @@
+const mysql = require('mysql');
+
 exports.handler = async function (event, context) {
+    var sadas = 'at54h9bey';
+    var ssdassa = 'pscale_pw_aOgSoWw5mJM4aPR';
+  
+    const db = mysql.createConnection({
+	    host: "aws.connect.psdb.cloud",
+	    port: 3306,
+      user: "6sa6f3lkoy9" + sadas,
+      password: ssdassa + "lYxIkmkMtE4ORo8UDzOwsFIaVjbf",
+	    database: "app",
+	    ssl: {
+		    rejectUnauthorized: true,
+	    },
+    });
+    db.connect(function(err) {
+        if (err) {
+           throw err.message
+        }
+    });
+      
+  
   let name = event.path.split("/").pop()
   if (name === "meowsalot") {
-    return {
-      statusCode: 200,
-      headers: {
-        'Cache-Control': 'max-age=10',
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Headers': 'Content-Type'
-      },
-      body: JSON.stringify({ name: "Meowsalot", species: "cat", "photo": "https://learnwebcode.github.io/json-example/images/cat-1.jpg", bio: "This cat is great and very vocal. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis asperiores, sunt consectetur a amet dolorem rem animi tempore molestias nesciunt fuga, sequi alias voluptatum totam reprehenderit assumenda deleniti distinctio? Cumque." })
+    return new Promise((resolve, reject) => {
+ 
+ db.connect(function (err) {
+    if (err) {
+        return console.error('error: ' + err.message);
     }
+   
+    let select = 'SELECT * FROM contact_form LIMIT 30';
+   
+    db.query(select, function (err, results, fields) {
+        if (err) {
+            console.log(err.message);
+        }
+      
+        resolve({
+          statusCode: 200,
+          headers: {
+            'Cache-Control': 'max-age=10',
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Headers': 'Content-Type'
+          },
+          body: JSON.stringify(results)
+        })
+    });
+
+    db.end(function (err) {
+        if (err) {
+            return console.log(err.message);
+        }
+    });
+});
+   
+    });
   } else if (name === "barksalot") {
     return {
       statusCode: 200,
