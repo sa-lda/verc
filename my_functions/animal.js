@@ -3,7 +3,11 @@ exports.handler = async function (event, context) {
   if (name === "meowsalot") {
     return {
       statusCode: 200,
-      headers: { "Cache-Control": "max-age=10" },
+      headers: {
+        'Cache-Control': 'max-age=10',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': 'Content-Type'
+      },
       body: JSON.stringify({ name: "Meowsalot", species: "cat", "photo": "https://learnwebcode.github.io/json-example/images/cat-1.jpg", bio: "This cat is great and very vocal. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis asperiores, sunt consectetur a amet dolorem rem animi tempore molestias nesciunt fuga, sequi alias voluptatum totam reprehenderit assumenda deleniti distinctio? Cumque." })
     }
   } else if (name === "barksalot") {
